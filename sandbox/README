@@ -1,0 +1,42 @@
+/***********************************************************************
+* Sandbox for online judge
+* author: lei
+*
+* Support apparmor and ptrace.
+* When using ptrace:
+* please link the sandboxed program statically 
+*     gcc -o demoexe -static demoexe.c
+*
+* When using apparmor:
+* you need to install apparmor and set executable file's setuid-bit
+*     >sudo chown root sandbox
+*     >sudo chmod u+s sandbox
+*
+* cpu time unit is 1S
+* memory unit is 1KB
+* fsize unit is 1B
+************************************************************************/
+
+NOTICES
+
+1.Here is a sample configuration file:
+file    /home/lei/demoexe
+cpu     1
+mem     2048
+fsize   1024
+in      /home/lei/file.in
+out     /home/lei/file.out
+err     /home/lei/file.err
+sandbox apparmor 
+
+flist
+/home/lei/data rw
+/home/lei/file.in r
+
+2.About output limit:
+You can use shell create_dir.sh to create a directory of a specified size.
+Here is a sample for creating a directory of 1M:
+    ./create_dir.sh  /home/file.img  /home/data_dir 1
+
+Use umount before you delete the directory:
+    sudo umount /home/data_dir
