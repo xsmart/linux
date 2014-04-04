@@ -74,7 +74,7 @@ bool epoll_wrapper::delete_fd(int fd)
     return ctl_fd(fd, EPOLL_CTL_DEL, 0);
 }
 
-epoll_wrapper::result epoll_wrapper::wait(int wait_ms = EPOLL_BLOCK)
+epoll_wrapper::result epoll_wrapper::wait(int wait_ms)
 {
     int n = 0;
     do{

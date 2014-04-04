@@ -21,7 +21,7 @@ public:
     bool delete_fd(int fd);
 
     typedef std::pair<epoll_event*, uint32_t> result;
-    result wait(int wait_ms);
+    result wait(int wait_ms = EPOLL_BLOCK);
     
 
 private:
