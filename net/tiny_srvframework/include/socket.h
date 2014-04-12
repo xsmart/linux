@@ -14,6 +14,7 @@ public:
     bool bind(const host_addr &ha);
     bool connect(const host_addr &ha);
     bool set_nonblock();
+	int get_fd() const;
     void close();
 
 protected:

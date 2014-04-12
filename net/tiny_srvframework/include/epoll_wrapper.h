@@ -17,7 +17,7 @@ public:
 
     bool create(int max_fd_num);
     bool ctl_fd(int fd, int option, int flag);
-    bool add_fd(int fd, int option);
+    bool add_fd(int fd, int flag = EPOLLIN | EPOLLET);
     bool delete_fd(int fd);
 
     typedef std::pair<epoll_event*, uint32_t> result;
@@ -27,7 +27,7 @@ public:
 private:
     int     m_epollfd;
     int     m_max_fd_num;
-    struct epoll_event *m_events;
+    struct  epoll_event *m_events;
 };
 
 #endif

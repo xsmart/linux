@@ -63,7 +63,7 @@ bool epoll_wrapper::ctl_fd(int fd, int option, int flag)
 }
 
 
-bool epoll_wrapper::add_fd(int fd, int flag = EPOLLIN)
+bool epoll_wrapper::add_fd(int fd, int flag)
 {
     return ctl_fd(fd, EPOLL_CTL_ADD, flag);
 }

@@ -22,7 +22,7 @@ bool socket::is_valid() const
 bool socket::bind(const host_addr &ha)
 {
     if(!is_valid())
-	return false;
+		return false;
 
     return ::bind(m_sockfd, ha.get_addr(), sizeof(sockaddr)) == 0;
 }
@@ -30,7 +30,7 @@ bool socket::bind(const host_addr &ha)
 bool socket::connect(const host_addr &ha)
 {
     if(!is_valid())
-	return false;
+		return false;
 
     return ::connect(m_sockfd, ha.get_addr(), sizeof(sockaddr)) == 0;
 }
@@ -38,7 +38,7 @@ bool socket::connect(const host_addr &ha)
 bool socket::set_nonblock()
 {
     if(!is_valid())
-	return false;
+		return false;
 
     int flag = ::fcntl(m_sockfd, F_GETFL);
     if(flag != -1)
@@ -49,11 +49,16 @@ bool socket::set_nonblock()
     return false;
 }
 
+int socket::get_fd() const
+{
+	return m_sockfd;
+}
+
 void socket::close()
 {
     if(is_valid())
     {
-	::close(m_sockfd);
-	m_sockfd = -1;
+		::close(m_sockfd);
+		m_sockfd = -1;
     }
 }
