@@ -62,11 +62,11 @@ bool srv_framework::initialize(const ha_list_type &ha_list, int max_conn_num)
     return true;
 }
 
-void srv_framework::_handle_epoll_()
+void srv_framework::_handle_epoll_(int timeout)
 {
     epoll_wrapper::result epoll_ret;
 
-    epoll_ret = m_epoll.wait();
+    epoll_ret = m_epoll.wait(timeout);
     
     if(epoll_ret.first)
     {
@@ -105,14 +105,15 @@ bool srv_framework::_handle_udp_packet_(udp_context &udp_if)
 }
 
 
-bool srv_framework::run(const ha_list_type &ha_list, int max_conn_num)
+bool srv_framework::run(const ha_list_type &ha_list, int max_conn_num, int timeout)
 {
 	if(!initialize(ha_list, max_conn_num))
 		return false;
 
 	while(1)
 	{
-		_handle_epoll_();
+		_handle_epoll_(timeout);
+		handle_loop();
 	}
 
 	return true;

@@ -7,6 +7,8 @@ using std::string;
 using std::cout;
 using std::endl;
 
+const int TIMEOUT = 2000;
+
 class test_srv : public srv_framework
 {
 protected:
@@ -14,6 +16,12 @@ protected:
 	{
 		string str(buf, buf_len);
 		cout << str << endl;
+		return true;
+	}
+
+	bool handle_loop()
+	{
+		cout << "calling handle_loop" << endl;
 		return true;
 	}
 
@@ -25,6 +33,6 @@ int main()
 	ha_list_type ha_list;
 	ha_list.push_back(host_addr("192.168.1.106", 51755));
 	ha_list.push_back(host_addr("192.168.1.106", 29873));
-	srv.run(ha_list);
+	srv.run(ha_list, MAX_CONN_NUM, TIMEOUT);
     return 0;
 }

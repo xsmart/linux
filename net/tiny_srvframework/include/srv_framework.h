@@ -50,16 +50,18 @@ class srv_framework
 {
 public:
     virtual ~srv_framework();
-	bool run(const ha_list_type &ha_list, int max_conn_num = MAX_CONN_NUM);
+	bool run(const ha_list_type &ha_list, int max_conn_num = MAX_CONN_NUM, int timeout = epoll_wrapper::EPOLL_BLOCK);
 
 protected:
     bool initialize(const ha_list_type &ha_list, int max_conn_num);
 
-    void _handle_epoll_();
+    void _handle_epoll_(int timeout);
+	virtual bool handle_loop() = 0;
 
     bool _handle_udp_packet_(udp_context &udp_if);
     virtual bool handle_udp_packet(uint32_t sock_name, int sock_fd, const char* buf, size_t buf_len, const host_addr &ha) = 0;
    
+protected:
     epoll_wrapper m_epoll;
 	typedef std::map<int, udp_context> udp_context_type;
     udp_context_type m_udp_context;
