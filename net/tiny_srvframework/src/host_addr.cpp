@@ -3,6 +3,8 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+namespace tiny_srv{
+
 host_addr::host_addr()
 {
    ::memset(&m_addr, 0, sizeof(sockaddr_in));
@@ -55,3 +57,4 @@ host_addr& host_addr::operator=(const host_addr& ha)
 	return *this;
 }
 
+} // end of namespace

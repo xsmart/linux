@@ -2,6 +2,8 @@
 #include "host_addr.h"
 #include <sys/socket.h>
 
+namespace tiny_srv{
+
 bool udp_socket::create()
 {
     m_sockfd = ::socket(AF_INET, SOCK_DGRAM, 0);   
@@ -25,3 +27,5 @@ ssize_t udp_socket::sendto(const char *buf, size_t buf_len, const host_addr &ha,
 {
     return ::sendto(m_sockfd, buf, buf_len, flags, ha.get_addr(), sizeof(sockaddr));
 }
+
+} // end of namespace

@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+namespace tiny_srv{
+
 socket::socket()
 : m_sockfd(-1)
 {}
@@ -62,3 +64,5 @@ void socket::close()
 		m_sockfd = -1;
     }
 }
+
+} // end of namespace

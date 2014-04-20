@@ -4,11 +4,12 @@
 #include "epoll_wrapper.h"
 #include "host_addr.h"
 #include "udp_socket.h"
+#include "conf.h"
 #include <map>
-#include <vector>
+
+namespace tiny_srv{
 
 const int MAX_BUFFER_LEN = 4096;
-const int MAX_CONN_NUM = 1024;
 
 struct sock_context
 {
@@ -44,16 +45,14 @@ public:
 };
     
 
-typedef std::vector<host_addr> ha_list_type;
-
 class srv_framework
 {
 public:
     virtual ~srv_framework();
-	bool run(const ha_list_type &ha_list, int max_conn_num = MAX_CONN_NUM, int timeout = epoll_wrapper::EPOLL_BLOCK);
+	bool run(const conf &srv_conf);
 
 protected:
-    bool initialize(const ha_list_type &ha_list, int max_conn_num);
+    bool initialize(const conf &srv_conf);
 
     void _handle_epoll_(int timeout);
 	virtual bool handle_loop() = 0;
@@ -67,5 +66,6 @@ protected:
     udp_context_type m_udp_context;
 };
 
+} // end of namespace
 #endif
 

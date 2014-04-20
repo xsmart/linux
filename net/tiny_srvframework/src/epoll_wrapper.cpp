@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
+namespace tiny_srv{
+
 epoll_wrapper::epoll_wrapper()
 : m_epollfd(-1),
   m_max_fd_num(0),
@@ -87,3 +89,5 @@ epoll_wrapper::result epoll_wrapper::wait(int wait_ms)
 
     return result(m_events, n);
 }
+
+} // end of namespace

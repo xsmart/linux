@@ -5,6 +5,8 @@
 using std::cout;
 using std::endl;
 
+namespace tiny_srv{
+
 srv_framework::~srv_framework()
 {
 	srv_framework::udp_context_type::iterator it;
@@ -16,16 +18,17 @@ srv_framework::~srv_framework()
 }
 
 
-bool srv_framework::initialize(const ha_list_type &ha_list, int max_conn_num)
+bool srv_framework::initialize(const conf &srv_conf)
 {
-    if(!m_epoll.create(max_conn_num))
+    if(!m_epoll.create(srv_conf.max_conn_num))
 	{
 		// need log
 		cout << "srv_framework::initialize: m_epoll.create() failed" << endl;
 		return false;
 	}
 
-    ha_list_type::size_type sz = ha_list.size();
+	conf::ha_list_type::size_type sz  = srv_conf.ha_list.size();
+	const conf::ha_list_type &ha_list = srv_conf.ha_list;
     for(uint32_t i = 0; i < sz; i++)
     {
 		udp_context udp_if;
@@ -105,16 +108,18 @@ bool srv_framework::_handle_udp_packet_(udp_context &udp_if)
 }
 
 
-bool srv_framework::run(const ha_list_type &ha_list, int max_conn_num, int timeout)
+bool srv_framework::run(const conf &srv_conf)
 {
-	if(!initialize(ha_list, max_conn_num))
+	if(!initialize(srv_conf))
 		return false;
 
 	while(1)
 	{
-		_handle_epoll_(timeout);
+		_handle_epoll_(srv_conf.timeout);
 		handle_loop();
 	}
 
 	return true;
 }
+
+} // end of namespace

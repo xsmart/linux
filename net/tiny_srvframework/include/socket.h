@@ -1,6 +1,8 @@
 #ifndef _SOCKET_H_
 #define _SOCKET_H_
 
+namespace tiny_srv{
+
 class host_addr;
 
 class socket
@@ -21,4 +23,5 @@ protected:
     int m_sockfd;
 };
 
+} // end of namespace
 #endif

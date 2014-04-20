@@ -1,31 +1,30 @@
-INCLUDE = ../include
+INC_DIR = -I../include
 
 C_ARGS = -g -Wall
 CXX = g++
 CC  = gcc
 
-all: socket.o host_addr.o udp_socket.o epoll_wrapper.o srv_framework.o test_srv test_client
+# $^ 代表所有的是的通过目录搜索得到的依赖文件的完整路径名（目录+一般文件名）列表
+# $@ 代表规则的目标
 
-socket.o: socket.cpp $(INCLUDE)/host_addr.h $(INCLUDE)/socket.h
-	$(CXX) $(C_ARGS) -c socket.cpp -I$(INCLUDE) -o $@
+.cpp.o:
+	$(CXX) $(C_ARGS) $(INC_DIR) -c $^
 
-udp_socket.o: udp_socket.cpp $(INCLUDE)/udp_socket.h $(INCLUDE)/socket.h $(INCLUDE)/host_addr.h
-	$(CXX) $(C_ARGS) -c udp_socket.cpp -I$(INCLUDE) -o $@
+.c.o:
+	$(CC) $(C_ARGS) $(INC_DIR) -c $^
 
-host_addr.o: host_addr.cpp $(INCLUDE)/host_addr.h
-	$(CXX) $(C_ARGS) -c host_addr.cpp -I$(INCLUDE) -o $@
+BINARY = test_srv 
+LIB = libtinysrv.a
 
-epoll_wrapper.o: epoll_wrapper.cpp $(INCLUDE)/epoll_wrapper.h
-	$(CXX) $(C_ARGS) -c epoll_wrapper.cpp -I$(INCLUDE) -o $@
+OBJECT:= socket.o host_addr.o conf.o udp_socket.o epoll_wrapper.o srv_framework.o
 
-srv_framework.o: srv_framework.cpp $(INCLUDE)/*.h
-	$(CXX) $(C_ARGS) -c srv_framework.cpp -I$(INCLUDE) -o $@
+all:$(LIB) 
 
-test_srv: main.cpp $(INCLUDE)/epoll_wrapper.h host_addr.o socket.o udp_socket.o epoll_wrapper.o srv_framework.o
-	$(CXX) $(C_ARGS) main.cpp host_addr.o socket.o udp_socket.o epoll_wrapper.o srv_framework.o -I$(INCLUDE) -o $@
+libtinysrv.a: $(OBJECT)
+	ar -rv $@ $^
 
-test_client: test_client.cpp host_addr.o udp_socket.o  socket.o
-	$(CXX) $(C_ARGS) test_client.cpp udp_socket.o host_addr.o socket.o -I$(INCLUDE) -o $@
 
 clean:
-	rm -f *.o
+	rm -f *.o $(LIB)
+
+

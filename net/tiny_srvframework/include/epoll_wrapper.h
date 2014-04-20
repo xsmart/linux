@@ -4,6 +4,8 @@
 #include <sys/epoll.h>
 #include <utility>
 
+namespace tiny_srv{
+
 class epoll_wrapper
 {
 public:
@@ -30,4 +32,5 @@ private:
     struct  epoll_event *m_events;
 };
 
+} // end of namespace
 #endif

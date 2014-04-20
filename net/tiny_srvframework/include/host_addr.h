@@ -4,6 +4,8 @@
 #include <string>
 #include <netinet/in.h>
 
+namespace tiny_srv{
+
 class host_addr
 {
 public:
@@ -23,4 +25,5 @@ private:
     sockaddr_in m_addr;     
 };
 
+} // end of namespace
 #endif
