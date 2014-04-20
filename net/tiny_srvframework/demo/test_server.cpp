@@ -7,6 +7,8 @@ using std::string;
 using std::cout;
 using std::endl;
 
+using namespace tiny_srv;
+
 const int TIMEOUT = 2000;
 
 class test_srv : public srv_framework
@@ -30,9 +32,9 @@ protected:
 int main()
 {
 	test_srv srv;
-	ha_list_type ha_list;
-	ha_list.push_back(host_addr("192.168.1.106", 51755));
-	ha_list.push_back(host_addr("192.168.1.106", 29873));
-	srv.run(ha_list, MAX_CONN_NUM, TIMEOUT);
+	conf srv_conf;
+	srv_conf.add_ha("192.168.1.106", 29873);
+	srv.run(srv_conf);
     return 0;
 }
+

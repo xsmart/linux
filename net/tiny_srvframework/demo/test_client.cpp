@@ -5,7 +5,8 @@
 #include "udp_socket.h"
 #include "host_addr.h"
 
-using namespace::std;
+using namespace tiny_srv;
+using namespace std;
 
 int main()
 {
