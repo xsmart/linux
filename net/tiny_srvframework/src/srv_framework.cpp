@@ -108,6 +108,21 @@ bool srv_framework::_handle_udp_packet_(udp_context &udp_if)
 }
 
 
+bool srv_framework::send_udp_packet(uint32_t sock_name, int sock_fd, const char* buf, size_t buf_len, const host_addr &ha)
+{
+	udp_context_type::iterator it = m_udp_context.find(sock_fd);
+
+	if(it != m_udp_context.end())
+	{
+		return it->second.m_sock.sendto(buf, buf_len, ha) != -1;
+	}	
+
+	// need log
+	cout << "srv_framework::send_udp_packet: can't find fd " << sock_fd << endl;
+	return false;
+}
+
+
 bool srv_framework::run(const conf &srv_conf)
 {
 	if(!initialize(srv_conf))

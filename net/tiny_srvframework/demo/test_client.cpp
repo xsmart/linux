@@ -8,16 +8,26 @@
 using namespace tiny_srv;
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
+	if(argc < 2)
+	{
+		cout << "usage: ./" << argv[0] << " message" << endl;
+		return 1;
+	}
+
 	udp_socket us;
 	us.create();
 
-	fork();
-
 	host_addr ha("192.168.1.106", 51755);
-	string str("test message");
+	string str(argv[1]);
+
 	us.sendto(str.c_str(), str.length(), ha);
-	cout << str << endl;
+
+	char buf[512];
+	int n = us.recvfrom(buf, sizeof(buf), ha);
+	string resp(buf, n);
+
+	cout << "receive: " << resp << endl;
 	return 0;
 }

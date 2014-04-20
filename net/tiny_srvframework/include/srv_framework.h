@@ -59,6 +59,8 @@ protected:
 
     bool _handle_udp_packet_(udp_context &udp_if);
     virtual bool handle_udp_packet(uint32_t sock_name, int sock_fd, const char* buf, size_t buf_len, const host_addr &ha) = 0;
+
+	bool send_udp_packet(uint32_t sock_name, int sock_fd, const char* buf, size_t buf_len, const host_addr &ha);
    
 protected:
     epoll_wrapper m_epoll;

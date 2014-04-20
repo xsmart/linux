@@ -18,6 +18,13 @@ protected:
 	{
 		string str(buf, buf_len);
 		cout << str << endl;
+
+		if(!send_udp_packet(sock_name, sock_fd, str.c_str(), str.length(), ha))
+		{
+			cout << "send respon error" << endl;
+			return false;
+		}
+
 		return true;
 	}
 
@@ -33,7 +40,7 @@ int main()
 {
 	test_srv srv;
 	conf srv_conf;
-	srv_conf.add_ha("192.168.1.106", 29873);
+	srv_conf.add_ha("192.168.1.106", 51755);
 	srv.run(srv_conf);
     return 0;
 }
